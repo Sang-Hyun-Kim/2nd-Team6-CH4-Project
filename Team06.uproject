@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.5",
+	"EngineAssociation": "5.8",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -19,6 +19,58 @@
 		{
 			"Name": "ModelingToolsEditorMode",
 			"Enabled": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "USDCore",
+			"Enabled": true
+		},
+		{
+			"Name": "ModelContextProtocol",
+			"Enabled": true,
+			"Optional": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "MCPClientToolset",
+			"Enabled": true,
+			"Optional": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "AIModuleToolset",
+			"Enabled": true,
+			"Optional": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "EditorToolset",
+			"Enabled": true,
+			"Optional": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "UMGToolSet",
+			"Enabled": true,
+			"Optional": true,
+			"TargetAllowList": [
+				"Editor"
+			]
+		},
+		{
+			"Name": "ConfigSettingsToolset",
+			"Enabled": true,
+			"Optional": true,
 			"TargetAllowList": [
 				"Editor"
 			]

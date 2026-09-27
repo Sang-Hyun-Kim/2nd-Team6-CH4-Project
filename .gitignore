@@ -1,6 +1,5 @@
 # Visual Studio 2015 user specific files
 .vs/
-.vsconfig
 
 # Jetbrain Rider
 .idea/
@@ -85,3 +84,18 @@ DerivedDataCache/*
 # Prerequisites
 *.d
 
+*.pdf
+
+
+# --- team environment (2026-09-27) ---
+# personal engine path for Scripts (copy of LocalEngine.example.bat)
+Scripts/LocalEngine.bat
+# packaging output if someone packages inside the project folder (PM only, never commit)
+Packaged/
+# generated VS solution (new format)
+*.slnx
+# local AI tool config
+/.mcp.json
+# local cleanup / archives
+/_to_delete/
+/Docs.zip

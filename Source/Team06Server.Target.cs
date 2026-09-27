@@ -3,11 +3,11 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class Team06EditorTarget : TargetRules
+public class Team06ServerTarget : TargetRules
 {
-	public Team06EditorTarget( TargetInfo Target) : base(Target)
+	public Team06ServerTarget(TargetInfo Target) : base(Target)
 	{
-		Type = TargetType.Editor;
+		Type = TargetType.Server;
 		DefaultBuildSettings = BuildSettingsVersion.V7;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_8;
 		ExtraModuleNames.Add("Team06");
