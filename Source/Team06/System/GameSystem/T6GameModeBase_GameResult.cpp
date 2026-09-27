@@ -108,7 +108,7 @@ void AT6GameModeBase_GameResult::OnMainTimerElapsed()
 
     if (RemainGameResultClosingTime <=0)
     {
-        MainTimerHandle.Invalidate();
+        GetWorldTimerManager().ClearTimer(MainTimerHandle); // [5.8 migration] Invalidate()는 핸들만 비우고 타이머는 계속 실행됨 → 이중 타이머로 카운트다운 2배속
         
         OnGameResultTimerFinished();
     }

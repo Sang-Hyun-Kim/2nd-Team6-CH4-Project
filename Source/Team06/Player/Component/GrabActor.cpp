@@ -1,6 +1,7 @@
 // GrabActor.cpp
 
 #include "Player/Component/GrabActor.h"
+#include "Team06.h"
 #include "GameFramework/Character.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -92,7 +93,7 @@ void AGrabActor::Tick(float DeltaTime)
         UEngineTypes::ConvertToTraceType(ECC_Visibility),
         false,
         IgnoreActors,
-        EDrawDebugTrace::ForOneFrame,
+        CVarDebugGeneral.GetValueOnGameThread() ? EDrawDebugTrace::ForOneFrame : EDrawDebugTrace::None, // [debug]
         Hit,
         true,
         FLinearColor::Red,

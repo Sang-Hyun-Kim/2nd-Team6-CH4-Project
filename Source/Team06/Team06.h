@@ -1,5 +1,8 @@
 #pragma once
 
+#include "CoreMinimal.h"
+#include "HAL/IConsoleManager.h"
+
 #pragma region GeneralLogging
 
 // 로그 카테고리 LogDx

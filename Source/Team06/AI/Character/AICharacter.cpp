@@ -2,6 +2,7 @@
 
 
 #include "AI/Character/AICharacter.h"
+#include "Team06.h"
 #include "AI/System/AIC_Enemy.h"
 #include "Components/SphereComponent.h"
 #include "Player/Component/FlagActor.h"
@@ -352,6 +353,7 @@ void AAICharacter::DrawDebugMeleeAttack(const FColor& DrawColor, FVector TraceSt
 	const float MeleeAttackRadius = 50.f;
 	FVector CapsuleOrigin = TraceStart + (TraceEnd - TraceStart) * 0.5f;
 	float CapsuleHalfHeight = MeleeAttackRange * 0.5f;
+	if (!CVarDebugGeneral.GetValueOnGameThread()) return; // [debug]
 	DrawDebugCapsule(GetWorld(), CapsuleOrigin, CapsuleHalfHeight, MeleeAttackRadius, FRotationMatrix::MakeFromZ(Forward).ToQuat(), DrawColor, false, 5.0f);
 }
 

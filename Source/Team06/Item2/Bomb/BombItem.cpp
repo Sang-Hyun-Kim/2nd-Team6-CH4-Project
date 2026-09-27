@@ -1,4 +1,5 @@
 #include "Item2/Bomb/BombItem.h"
+#include "Team06.h"
 #include "TimerManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
@@ -52,22 +53,7 @@ void ABombItem::Explode()
     ActivateParticle1();
     ServerPlaySound1();
 
-    MulticastExplode();
-    Destroy();
-}
-
-void ABombItem::MulticastExplode_Implementation()
-{
-    DrawDebugSphere(
-        GetWorld(),
-        GetActorLocation(),
-        ExplosionRadius,
-        32,
-        FColor::Red,
-        false,
-        3.0f
-    );
-
+    // [fix] 기존에는 NetMulticast 안에서 실행되어 클라이언트에서도 데미지/넉백이 계산됨 → 서버 권한으로 이동
     UGameplayStatics::ApplyRadialDamage(
         GetWorld(),
         Damage,
@@ -92,5 +78,17 @@ void ABombItem::MulticastExplode_Implementation()
         float Strength = KnockBackMultiplier * 1000.f * (1.f - Dist / ExplosionRadius);
         FVector Vel = Dir * Strength + FVector(0, 0, Strength * 0.5f);
         P->LaunchCharacter(Vel, true, true);
+    }
+
+    MulticastExplode();
+    Destroy();
+}
+
+void ABombItem::MulticastExplode_Implementation()
+{
+    // [fix] 연출 전용. 데미지/넉백은 서버(Explode)에서만 처리한다.
+    if (CVarDebugGeneral.GetValueOnGameThread())
+    {
+        DrawDebugSphere(GetWorld(), GetActorLocation(), ExplosionRadius, 32, FColor::Red, false, 3.0f);
     }
 }

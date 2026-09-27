@@ -20,7 +20,7 @@ void AT6GameModeBase_GameLevel::HandlePlayerGameWin(AController* Winner)
 		{
 			GI->AddWinForPlayer(Name);
 			UE_LOG(LogTemp, Log, TEXT("%s now has +1 win"), *Name);
-			MainTimerHandle.Invalidate();
+			GetWorldTimerManager().ClearTimer(MainTimerHandle); // [5.8 migration] Invalidate()는 핸들만 비우고 타이머는 계속 실행됨 → 이중 타이머로 카운트다운 2배속
 			if (OnGameWinHandled.IsBound())
 			{
 				UE_LOG(LogTemp, Warning, TEXT("MainTimerHandle invalidated"));
@@ -60,7 +60,7 @@ void AT6GameModeBase_GameLevel::HandleRandomPlayerGameWin()
 					{
 						GI->AddWinForPlayer(RandomPlayerName);
 						UE_LOG(LogTemp, Log, TEXT("%s now has +1 win"), *RandomPlayerName);
-						MainTimerHandle.Invalidate();
+						GetWorldTimerManager().ClearTimer(MainTimerHandle); // [5.8 migration] Invalidate()는 핸들만 비우고 타이머는 계속 실행됨 → 이중 타이머로 카운트다운 2배속
 						if (OnGameWinHandled.IsBound())
 						{
 							UE_LOG(LogTemp, Warning, TEXT("MainTimerHandle invalidated"));
@@ -223,7 +223,7 @@ void AT6GameModeBase_GameLevel::OnMainTimerElapsed()
 
 		if (RemainGameStartTimeForEnding <= 0)
 		{
-			MainTimerHandle.Invalidate();
+			GetWorldTimerManager().ClearTimer(MainTimerHandle); // [5.8 migration] Invalidate()는 핸들만 비우고 타이머는 계속 실행됨 → 이중 타이머로 카운트다운 2배속
 			MPGameState->MatchState = EMatchState::Loading;
 			OnShowingLoadingScreen();
 			ChangeGameLevel();
@@ -247,7 +247,7 @@ void AT6GameModeBase_GameLevel::OnMainTimerElapsed()
 		if (RemainGameStartTimeForEnding <= 0)
 		{
 			// Gameover
-			MainTimerHandle.Invalidate();
+			GetWorldTimerManager().ClearTimer(MainTimerHandle); // [5.8 migration] Invalidate()는 핸들만 비우고 타이머는 계속 실행됨 → 이중 타이머로 카운트다운 2배속
 			MPGameState->MatchState = EMatchState::Loading;
 			OnShowingLoadingScreen();
 			GetWorld()->ServerTravel(GameOvermap, true);

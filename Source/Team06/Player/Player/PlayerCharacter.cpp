@@ -1,4 +1,5 @@
 #include "PlayerCharacter.h"
+#include "Team06.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -518,6 +519,7 @@ void APlayerCharacter::CheckItemMeleeAttack()
 
     const FVector CapsuleCenter = (Start + End) * 0.5f;
     const float CapsuleHalfHeight = Row->HitRange * 0.5f;
+    if (CVarDebugGeneral.GetValueOnGameThread()) // [debug] DX.Debug.General 1 일 때만 표시
     DrawDebugCapsule(GetWorld(), CapsuleCenter, CapsuleHalfHeight, Row->HitRadius, FRotationMatrix::MakeFromZ(Forward).ToQuat(), bHit ? FColor::Red : FColor::Blue, false, 2.0f);
 
     TSet<APlayerBase*> HitPlayers;
@@ -571,6 +573,7 @@ void APlayerCharacter::DrawDebugMeleeAttack(const FColor& DrawColor, FVector Tra
     const float MeleeAttackRadius = 50.f;
     FVector CapsuleOrigin = TraceStart + (TraceEnd - TraceStart) * 0.5f;
     float CapsuleHalfHeight = MeleeAttackRange * 0.5f;
+    if (!CVarDebugGeneral.GetValueOnGameThread()) return; // [debug] DX.Debug.General 1 일 때만 표시
     DrawDebugCapsule(GetWorld(), CapsuleOrigin, CapsuleHalfHeight, MeleeAttackRadius, FRotationMatrix::MakeFromZ(Forward).ToQuat(), DrawColor, false, 5.0f);
 }
 

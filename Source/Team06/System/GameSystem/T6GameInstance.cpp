@@ -5,6 +5,7 @@
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "AssetRegistry/IAssetRegistry.h"
 #include "AssetRegistry/AssetData.h"
+#include "HAL/PlatformProperties.h" // [5.8 migration] RequiresCookedData
 #include "System/GameSystem/T6GameModeBase.h"
 #include "System/GameSystem/T6GameStateBase.h"
 void UT6GameInstance::Init()
@@ -35,7 +36,13 @@ void UT6GameInstance::LoadLevelsFromFolder()
 	FAssetRegistryModule& AssetRegistryModule =
 		FModuleManager::LoadModuleChecked<FAssetRegistryModule>("AssetRegistry");
 	TArray<FString> PathsToScan = { "/Game/Team6/GameSystem/GS_Level/GameLevel" };
-	AssetRegistryModule.Get().ScanPathsSynchronous(PathsToScan, true);
+	// [5.8 migration] 쿠킹된 빌드(IoStore)에서는 .umap이 파일로 보이지 않아, bForceRescan=true 스캔이
+	// 프리메이드 AssetRegistry의 GameLevel 항목을 "디스크에 없음"으로 지워 버림 → "No levels found".
+	// 에디터(쿠킹 안 된 콘텐츠)에서만 스캔하고, 쿠킹된 빌드는 프리메이드 AssetRegistry를 그대로 사용한다.
+	if (!FPlatformProperties::RequiresCookedData())
+	{
+		AssetRegistryModule.Get().ScanPathsSynchronous(PathsToScan, true);
+	}
 	TArray<FAssetData> AssetData;
 	AssetRegistryModule.Get().GetAssetsByPath(FName("/Game/Team6/GameSystem/GS_Level/GameLevel"), AssetData, true);
 
